@@ -1,0 +1,71 @@
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  white-space: nowrap;
+  user-select: none;
+  padding: 5px 16px 6px;
+  font-size: 14px;
+  border-radius: 4px;
+  color: $btn-color;
+  background-color: #fff;
+  border: 1px solid transparent;
+  transition: all 0.3s ease-out;
+  &:hover {
+    transition: all 0.3s ease-out;
+  }
+}
+.btn-default {
+  width: 158px;
+  height: 48px;
+  font-size: 18px;
+  border: 1px solid #fff;
+  border-radius: 0;
+  background-color: unset;
+  &:hover {
+    color: $theme;
+    border-color: $theme;
+  }
+}
+.btn-primary {
+  color: #fff;
+  background-color: $btn-primary;
+  // &:hover {
+  //   background: rgba(69, 89, 100, 0.75);
+  // }
+}
+.btn-success {
+  color: #fff;
+  background-color: $theme;
+  // &:hover {
+  //   background: rgba(69, 89, 100, 0.75);
+  // }
+}
+.btn-warning {
+  color: #fff;
+  background: $btn-warning;
+  &:hover {
+    background-color: rgba(178, 0, 0, 0.75);
+  }
+}
+.btn-open {
+  color: #515a6e;
+  background-color: transparent;
+  border-color: transparent;
+  &:hover {
+    color: $theme;
+    background-color: #fff;
+    border-color: transparent;
+  }
+}
+.btn-border {
+  padding: 0 19px;
+  border: 1px solid #fff;
+  &:hover {
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.8);
+  }
+}

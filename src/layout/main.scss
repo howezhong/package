@@ -1,0 +1,21 @@
+@import '~@/styles/variable';
+
+.layout-container {
+  background: $theme-bj-color;
+}
+.main-container {
+  position: relative;
+  padding-top: $header-height;
+  overflow: hidden;
+}
+.content-container {
+  position: relative;
+  display: block;
+  margin-left: $sidebar-width;
+  height: 100%;
+  & > div {
+    margin: 10px;
+    background: #fff;
+    height: 100%;
+  }
+}

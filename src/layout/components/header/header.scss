@@ -1,0 +1,17 @@
+@import '~@/styles/variable';
+
+.header-container {
+  position: fixed;
+  width: 100%;
+  height: $header-height;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  background: #001529;
+}
+.z-row {
+  color: #fff;
+  font-size: 30px;
+  text-align: center;
+  line-height: $header-height;
+}

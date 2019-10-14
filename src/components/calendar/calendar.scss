@@ -1,0 +1,134 @@
+@function rem($n) {
+    @return ($n / 100) * 1rem;
+}
+
+$color: #fff;
+$week-color: #999;
+$bc-color: #fff;
+$head-font-size: rem(44);
+$date-color: #333;
+// $selected-date: #2FC28C;
+
+.calendar-container {
+    // width: 100%;
+    // background-color: $bc-color;
+    transition: all 0.3s;
+    box-sizing: border-box;
+}
+
+.calendar-header {
+    position: relative;
+    border-radius: rem(8) rem(8) 0 0;
+    height: rem(160);
+}
+
+.calendar-header-item {
+    font-size: $head-font-size;
+    font-weight: 400;
+}
+
+.calendar-panel {
+    color: $color;
+
+    svg {
+        vertical-align: middle;
+    }
+}
+
+.calendar-year-month {
+    line-height: $head-font-size;
+    padding: rem(15) rem(40);
+}
+
+// .calendar-svg-prev {}
+
+// .calendar-svg-next {}
+
+.calendar-today {
+    color: $color;
+    line-height: $head-font-size;
+    margin-left: rem(50);
+    padding: rem(15) 0;
+}
+
+.calendar-left__fence {
+    left: rem(66);
+}
+
+.calendar-right__fence {
+    right: rem(66);
+}
+
+.calendar-left__fence,
+.calendar-right__fence {
+    position: absolute;
+    bottom: - rem(15);
+    width: rem(18);
+    height: rem(44);
+    background-color: $bc-color;
+    box-shadow: 0px 1px 2px 0px rgba(49, 49, 49, 0.39), 0px 3px 7px 0px rgba(0, 0, 0, 0.11);
+    border-radius: rem(9);
+}
+
+.calendar-header,
+.calendar-header-item,
+.calendar-panel,
+.calender-week-date-row,
+.calender-week-date-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendar-main {
+    padding: 0 rem(30);
+    background-color: $bc-color;
+}
+
+// 星期
+.calendar-week {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: rem(40);
+    overflow: hidden;
+
+    .week {
+        flex: 1;
+        text-align: center;
+        color: $week-color;
+        font-size: rem(28);
+        font-weight: 400;
+        line-height: rem(70);
+    }
+}
+
+// 每日
+.calender-week-date-row {
+    font-size: rem(32);
+    justify-content: flex-start;
+}
+.calender-week-date-column {
+    // flex: 1;
+    width:rem(94);
+    color: $date-color;
+    text-align: center;
+    height: rem(70);
+    font-weight: 300;
+    & .date {
+        display: block;
+        width: rem(56);
+        height: rem(56);
+        text-align: center;
+        line-height: rem(56);
+    }
+
+    & .selected {
+        border-radius: 50%;
+        color: #fff;
+    }
+}
+.clock{
+    border:1px solid rgb(47, 194, 140);
+    border-radius: 50%;
+}

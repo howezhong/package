@@ -1,0 +1,23 @@
+.roll-container {
+  display: inline-block;
+  font-family: Helvetica;
+  font-weight: bold;
+  line-height: 34px;
+  width: 61px;
+  height: 34px;
+  text-align: center;
+  background: linear-gradient(
+    180deg,
+    rgba(96, 152, 171, 1) 0%,
+    rgba(62, 110, 126, 1) 100%
+  );
+  transition: all 3s ease-in-out 0s;
+  overflow: hidden;
+}
+.roll-wrap {
+  font-size: 30px;
+  color: #fefd07;
+}
+.digtal-print {
+  display: block;
+}

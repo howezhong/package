@@ -1,0 +1,18 @@
+.swipe-container {
+  height: 800px;
+  /deep/ .swiper-pagination-bullet {
+    width: 18px;
+    height: 18px;
+    background-color: #cccccc;
+  }
+  /deep/ .swiper-pagination-bullet-active {
+    background: #0c98ff;
+  }
+  /deep/ .swiper-pagination-bullets .swiper-pagination-bullet {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+.swipe-img {
+  height: 100%;
+}

@@ -1,0 +1,63 @@
+@import "~@/styles/variable";
+
+.select-container {
+  position: relative;
+  width: 118px;
+  user-select: none;
+}
+.select-selection {
+  border: 1px solid #fff;
+}
+.select-selection,
+.select-list-item {
+  display: flex;
+  align-items: center;
+  height: 34px;
+  color: #fff;
+  cursor: pointer;
+}
+.select-placeholder {
+  display: block;
+  line-height: 34px;
+  height: 100%;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 14px;
+  padding-right: 23px;
+}
+.select-arrow {
+  position: absolute;
+  top: 50%;
+  right: 7px;
+  line-height: 1;
+  transform: translateY(-50%);
+  color: inherit;
+  transition: all 0.2s ease-in-out;
+}
+.rotate-arrow {
+  transform: rotate(180deg) translateY(50%);
+  transition: all 0.2s ease-in-out;
+}
+.select-img,
+.select-list-img {
+  width: 22px;
+  height: 22px;
+  border-radius: 100%;
+  margin-left: 5px;
+}
+.select-dropdown {
+  position: absolute;
+  left: 0;
+  top: 35px;
+  width: 100%;
+  z-index: 1001;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.select-list-item {
+  &:hover,
+  &.active {
+    background-color: $theme;
+  }
+}
