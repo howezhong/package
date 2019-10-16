@@ -26,9 +26,33 @@ module.exports = {
       .set('assets', resolve('src/assets'))
     config.plugins.delete('prefetch') // 静态资源js按需加载配置
   },
-  configureWebpack: {
-    resolve: {
-      extensions: ['.js', '.json', '.vue', '.scss', '.html']
+  // configureWebpack: {
+  //   resolve: {
+  //     extensions: ['.js', '.json', '.vue', '.scss', '.html']
+  //   }
+  // },
+  configureWebpack: config => {
+    config.resolve.extensions.push(...['.js', '.json', '.vue', '.scss', '.html'])
+    if (process.env.NODE_ENV === 'production') {
+      // 去除打包时候的console
+      config.optimization.minimizer[0].options.terserOptions.compress.warnings = false
+      config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
+      config.optimization.minimizer[0].options.terserOptions.compress.drop_debugger = true
+      config.optimization.minimizer[0].options.terserOptions.compress.pure_funcs = ['console.log']
+    }
+  },
+  css: {
+    // 定位样式所在的vue文件及行数
+    sourceMap: true,
+    loaderOptions: {
+      sass: {
+        // sass 全局变量, $path 可以配置图片cdn 前缀, scss 里 background: url($path + '/images/404.png')
+        prependData: `
+          @import "@/styles/_variable.scss";
+          @import "@/styles/_mixin.scss";
+          $path: "${process.env.ROOTPATH}";
+        `
+      }
     }
   },
   // 代理
@@ -38,8 +62,11 @@ module.exports = {
     // port: 8181, // 端口地址
     proxy: {
       '^/api': {
+        // 目标代理接口地址
         target: 'http://192.168.1.1:8181',
-        // secure: false, // 如果是https接口，需要配置这个参数
+        // 如果是https接口，需要配置这个参数
+        // secure: false,
+        // 开启代理，在本地创建一个虚拟服务端
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

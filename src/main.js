@@ -5,6 +5,8 @@ import store from './store'
 
 import './styles/_index.scss'
 
+// Vue.prototype.$path = process.env.ROOTPATH
+
 Vue.config.productionTip = false
 
 new Vue({
