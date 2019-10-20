@@ -3,7 +3,7 @@
     <div class="page-list">
       <div class="page-list-item" v-for="(item, i) in handleLists" :key="i">{{item}}</div>
     </div>
-    <pagination :total="this.lists.length" :is-long-prev-next="true" @determine="determine" :sizePage="sizePage"></pagination>
+    <pagination :total="this.lists.length" @on-change="determine"></pagination>
   </div>
 </template>
 <script>
@@ -19,8 +19,7 @@ export default {
       lists: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
       currPage: 1,
       // 每页渲染个数
-      sizePage: 7,
-      totals: 3
+      sizePage: 7
     }
   },
   computed: {
@@ -31,12 +30,9 @@ export default {
   },
   methods: {
     // 分页
-    determine (params) {
-      this.currPage = params.page
+    determine (page) {
+      this.currPage = page
     }
-  },
-  mounted () {
-    // this.totals = Math.ceil(this.lists.length / this.sizePage)
   }
 }
 </script>

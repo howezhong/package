@@ -1,0 +1,61 @@
+.notice-wrapper {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 50%;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 4px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  background: #f0faff;
+  overflow: hidden;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  &:after {
+    content: '';
+    display: block;
+    width: 5px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: #666;
+  }
+  &.notice-default:after {
+    background: #666;
+  }
+  &.notice-info:after {
+    background: #39f;
+  }
+  &.notice-success:after {
+    background: #0c98ff;
+  }
+  &.notice-warning:after {
+    background: #f90;
+  }
+  &.notice-error:after {
+    background: #f30;
+  }
+}
+.notice-header {
+  position: relative;
+  color: #0c98ff;
+  font-size: 14px;
+  .notice-title {
+    color: inherit;
+  }
+}
+@keyframes slideInTop {
+  from {
+    transform: translate3d(-50%, -100%, 0);
+    visibility: visible;
+  }
+  to {
+    transform: translate3d(-50%, -50%, 0);
+  }
+}
+
+.slide-in-top {
+  animation-name: slideInTop;
+}

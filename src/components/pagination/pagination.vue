@@ -1,27 +1,32 @@
 <template>
-  <div class='pagination-container'>
+  <div class='pagination-container' v-if="isRender">
     <ul class="pagination-pages">
       <li class="pagination-jump-prev" @click="prev">
-        <a>
-          <template v-if="prevText !== ''">{{ prevText }}</template>
-          <svg v-else xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#999999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 8l-4 4 4 4M16 12H9" />
-          </svg>
-        </a>
+        <template v-if="prevText !== ''">{{ prevText }}</template>
+        <svg v-else xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#999999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6" /></svg>
       </li>
-      <li class="pagination-item" :class="{'active': currentPage === 1}" @click="onPageNumber(1)">1</li>
-      <li class="pagination-item" v-show="pagesTotal[0] > 2">...</li>
-      <li class="pagination-item" v-for="page in calcPages" :class="{'active': currentPage === page}" @click="onPageNumber(page)" :key="page">{{page}}</li>
-      <li class="pagination-item" v-show="pagesTotal[pagesTotal.length-1] < pagesTotal - 1">...</li>
+      <li :class="['pagination-item', {'active': currentPage === 1}]" @click="handlePage(1)">1</li>
+      <li class="pagination-item" v-if="showPrevMore">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#999999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="1"></circle>
+          <circle cx="19" cy="12" r="1"></circle>
+          <circle cx="5" cy="12" r="1"></circle>
+        </svg>
+      </li>
+      <li :class="['pagination-item', {'active': currentPage === page}]" v-for="page in pages" @click="handlePage(page)" :key="page">{{page}}</li>
+      <li class="pagination-item" v-if="showNextMore">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#999999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="1"></circle>
+          <circle cx="19" cy="12" r="1"></circle>
+          <circle cx="5" cy="12" r="1"></circle>
+        </svg>
+      </li>
+      <li :class="['pagination-item', {'active': currentPage === pagesTotal}]" v-if="pagesTotal > 1" @click="handlePage(pagesTotal)">{{pagesTotal}}</li>
       <li class="pagination-jump-next" @click="next">
-        <a>
-          <template v-if="nextText !== ''">{{ nextText }}</template>
-          <svg v-else xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#999999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 8l4 4-4 4M8 12h7" />
-          </svg>
-        </a>
+        <template v-if="nextText !== ''">{{ nextText }}</template>
+        <svg v-else xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#999999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18l6-6-6-6" /></svg>
       </li>
     </ul>
   </div>
@@ -35,13 +40,13 @@ export default {
       type: Number,
       default: 0
     },
-    // 当前页码
+    // 当前页码, 支持.sync
     currPage: {
       type: Number,
       default: 1
     },
-    // 每页条数
-    pageSize: {
+    // 每页渲染数
+    limit: {
       type: Number,
       default: 9
     },
@@ -56,70 +61,91 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    // 可见页码, 超出的以...替代(必须是奇数), 如 1...[45678]...11, 1[23456]...11
+    sizePage: {
+      type: Number,
+      default: 5
     }
   },
   data () {
     return {
-      pagesTotal: [],
+      // 总页数
+      pagesTotal: 1,
+      // 当前页码
       currentPage: this.currPage,
-      currentPageSize: this.pageSize
+      // 每页渲染数
+      currentLimit: this.limit,
+      showPrevMore: false,
+      showNextMore: false
     }
   },
   watch: {
     currPage (v) {
       this.currentPage = v
     },
-    pageSize (v) {
-      this.currentPageSize = v
+    limit (v) {
+      this.currentLimit = v
     }
   },
   computed: {
-    calcPages () {
-      let pages = Math.ceil(this.total / this.pageSize)
-      return this.startPage((pages === 0) ? 1 : pages)
+    isRender () {
+      return true
+    },
+    pages () {
+      return this.calcPages()
     }
   },
   methods: {
-    startPage (pages) {
-      // let pagesTotal = []
-      let start = 0
-      // 当前页码小于总页数时, 去除页码 1
-      if (this.currentPage <= pages) {
-        start = 2
-      }
-      for (let i = start; i <= pages; i++) {
-        this.pagesTotal.push(i)
-      }
-      return this.pagesTotal
-    },
     prev () {
       if (this.disabled) return
-      const currPage = this.currentPage
-      if (currPage <= 1) {
-        return false
-      }
-      this.changePage(currPage - 1)
+      if (this.currentPage <= 1) return false
+      this.changePage(this.currentPage - 1)
     },
     next () {
       if (this.disabled) return
-      const currPage = this.currentPage
-      debugger
-      if (currPage >= this.pagesTotal.length) {
-        return false
-      }
-      this.changePage(currPage + 1)
+      if (this.currentPage >= this.pagesTotal) return false
+      this.changePage(this.currentPage + 1)
+    },
+    handlePage (page) {
+      if (this.disabled) return
+      this.changePage(page)
     },
     changePage (page) {
       if (this.disabled) return
-      if (this.currPage !== page) {
-        this.currentPage = page
-        this.$emit('update:currPage', page)
-        this.$emit('on-change', page)
+      this.currentPage = page
+      this.$emit('update:currPage', page)
+      this.$emit('on-change', page)
+    },
+    calcPages () {
+      this.pagesTotal = Math.ceil(this.total / this.currentLimit)
+      this.showPrevMore = false
+      this.showNextMore = false
+      const sizePage = this.sizePage
+      const totals = this.pagesTotal
+      const currPage = this.currentPage
+      if (totals < sizePage + 2) {
+        return this.renderPages(2, totals)
+      } else if (currPage <= Math.ceil(sizePage / 2)) {
+        this.showNextMore = true
+        return this.renderPages(2, sizePage)
+      } else if (currPage >= totals - Math.ceil(sizePage / 2)) {
+        this.showPrevMore = true
+        return this.renderPages(totals + 1 - sizePage, totals - 1)
+      } else {
+        this.showNextMore = true
+        this.showPrevMore = true
+        let median = Math.ceil(sizePage / 2) - 1
+        return this.renderPages(currPage - median, currPage + median)
       }
     },
-    onPageNumber (page) {
-      if (this.disabled) return
-      this.changePage(page)
+    renderPages (start, end) {
+      if (end === this.pagesTotal) end = this.pagesTotal - 1
+      const arrs = []
+      for (let i = start; i <= end; i++) {
+        arrs.push(i)
+      }
+      return arrs
     }
   }
 }

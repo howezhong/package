@@ -15,16 +15,15 @@
   width: auto;
   color: #515a6e;
   font-size: 16px;
-  background: #fff;
   position: relative;
   z-index: 900;
 }
 .sidebar-menu-item {
-  padding: 10px 15px 10px 24px;
-  background: #505bda;
   cursor: pointer;
   & > a {
+    display: block;
     color: rgba(255, 255, 255, 0.65);
+    padding: 10px 15px 10px 24px;
     transition: all 0.3s;
   }
   &:hover {
@@ -33,4 +32,7 @@
       transition: all 0.3s;
     }
   }
+}
+.sidebar-menu-active {
+  background: #505bda;
 }
