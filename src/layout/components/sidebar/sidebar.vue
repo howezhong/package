@@ -28,7 +28,7 @@ export default {
     }
   },
   mounted () {
-    this.isActive = this.$route.path
+    this.isActive = this.$route.matched[1].path
   }
 }
 </script>

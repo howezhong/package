@@ -1,9 +1,10 @@
 const path = require('path')
+const SpritesmithPlugin = require('webpack-spritesmith')
 
 function resolve (dir) {
   return path.join(__dirname, dir)
 }
-
+const hasSprite = false
 // 项目部署基础
 // 默认情况下, 我们假设你的应用将被部署在域的根目录下,
 // 例如: https://www.howe.com/, 则默认: '/'
@@ -40,6 +41,11 @@ module.exports = {
       config.optimization.minimizer[0].options.terserOptions.compress.drop_debugger = true
       config.optimization.minimizer[0].options.terserOptions.compress.pure_funcs = ['console.log']
     }
+    if (hasSprite) {
+      config.resolve.modules = ['node_modules', './src/assets/images']
+      const plugins = spriteFn()
+      config.plugins = [...config.plugins, ...plugins]
+    }
   },
   css: {
     // 定位样式所在的vue文件及行数
@@ -74,4 +80,55 @@ module.exports = {
       }
     }
   }
+}
+
+const templateFunction = (data) => {
+  let shared = `.ico {
+    display: inline-block;
+    background: url(${data.sprites[0].image}) center no-repeat;
+    background-size: ${data.spritesheet.width}px ${data.spritesheet.height}px;
+  }`
+
+  let perSprite = data.sprites.map(function (sprite) {
+    return '.ico-N { width: Wpx; height: Hpx; background-position: Xpx Ypx; }'
+      .replace('N', sprite.name)
+      .replace('W', sprite.width)
+      .replace('H', sprite.height)
+      .replace('X', sprite.offset_x)
+      .replace('Y', sprite.offset_y)
+  }).join('\n')
+
+  return shared + '\n' + perSprite
+}
+
+const spriteFn = () => {
+  return [
+    new SpritesmithPlugin({
+      src: {
+        // 图标根路径
+        cwd: path.resolve(__dirname, './src/assets/images/sprites'),
+        glob: '**/*.png'
+      },
+      target: {
+        // 生成雪碧图目标路径与名称
+        image: path.resolve(__dirname, './src/assets/images/sprite.[hash:6].png'),
+        css: [
+          [path.resolve(__dirname, './src/styles/sprites/sprite.scss'), {
+            format: 'function_based_template'
+          }]
+        ]
+      },
+      customTemplates: {
+        'function_based_template': templateFunction
+      },
+      // scss文件中引用雪碧图的相对位置路径配置
+      apiOptions: {
+        cssImageRef: `$path+'sprite.[hash:6].png'`
+      },
+      spritesmithOptions: {
+        algorithm: 'binary-tree',
+        padding: 5
+      }
+    })
+  ]
 }
