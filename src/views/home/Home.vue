@@ -1,6 +1,6 @@
 <template>
   <div class="home-container clearfix">
-    组件封装示例
+    <p class="mi-title">组件封装示例</p>
   </div>
 </template>
 

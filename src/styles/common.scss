@@ -7,3 +7,14 @@
   display: block;
   box-sizing: border-box;
 }
+.mi-title {
+  font-size: 38px;
+  font-weight: 400;
+  background: linear-gradient(
+    180deg,
+    $home-font-linear 0%,
+    $home-font-gradient 100%
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
