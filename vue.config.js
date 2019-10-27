@@ -24,14 +24,10 @@ module.exports = {
     config.resolve.alias
       .set('@', resolve('src'))
       .set('@@', resolve('src/components'))
+      .set('api', resolve('src/api'))
       .set('assets', resolve('src/assets'))
     config.plugins.delete('prefetch') // 静态资源js按需加载配置
   },
-  // configureWebpack: {
-  //   resolve: {
-  //     extensions: ['.js', '.json', '.vue', '.scss', '.html']
-  //   }
-  // },
   configureWebpack: config => {
     config.resolve.extensions.push(...['.js', '.json', '.vue', '.scss', '.html'])
     if (process.env.NODE_ENV === 'production') {
@@ -56,7 +52,7 @@ module.exports = {
         prependData: `
           @import "@/styles/_variable.scss";
           @import "@/styles/_mixin.scss";
-          $path: "${process.env.ROOTPATH}";
+          $path: "${process.env.VUE_APP_ROOT_PATH}";
         `
       }
     }
@@ -65,7 +61,7 @@ module.exports = {
   devServer: {
     // open: true, // 是否自动打开浏览器页面
     // host: 'localhost', // 指定使用一个 host, 默认是 localhost
-    // port: 8181, // 端口地址
+    port: 8181, // 端口地址
     proxy: {
       '^/api': {
         // 目标代理接口地址

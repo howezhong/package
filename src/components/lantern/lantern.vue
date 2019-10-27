@@ -141,12 +141,17 @@ export default {
       this.nodeLists.length = this.nodeLists.length
     },
     setStyle (el, transform) {
-      el.style = `
-        WebkitTransform: ${transform};
-        MozTransform: ${transform};
-        OTransform: ${transform};
-        transform: ${transform};
-      `
+      el.style.transform = `${transform}`
+      el.style.WebkitTransform = `${transform}`
+      el.style.MozTransform = `${transform}`
+      el.style.OTransform = `${transform}`
+      // IE下这么写会报错, 因为在严格模式下xx.style会被认定为只读属性
+      // el.style = `
+      //   WebkitTransform: ${transform};
+      //   MozTransform: ${transform};
+      //   OTransform: ${transform};
+      //   transform: ${transform};
+      // `
     },
 
     /**
