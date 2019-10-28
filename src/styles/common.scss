@@ -18,3 +18,8 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.gradient-text {
+  fill: url(#svgTitle);
+  font-size: 38px;
+  font-weight: 400;
+}
