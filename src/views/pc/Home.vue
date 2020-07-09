@@ -4,8 +4,12 @@
       <li class="home-menu-item" v-for="(item, i) in lists" :key="i">
         <router-link :to="item.path" class="btn btn-primary">{{item.name}}</router-link>
       </li>
+      <li class="home-menu-item btn btn-primary">
+        <fullscreen v-model="isFullscreen" />
+      </li>
     </ul>
     <div class="home-content">
+      <!-- <ABackTop :height="100" :bottom="80" :right="50" container=".home-wrapper"></ABackTop> -->
       <router-view></router-view>
     </div>
   </div>
@@ -24,8 +28,13 @@ export default {
         { name: '侧边栏', path: 'sidebar' },
         { name: '弹窗', path: 'dialog' },
         { name: '下拉选择器', path: 'select' }
-      ]
+      ],
+      isFullscreen: false
     }
+  },
+  components: {
+    // ABackTop: () => import('@@/a-back-top'),
+    fullscreen: () => import('@@/fullscreen')
   }
 }
 </script>
