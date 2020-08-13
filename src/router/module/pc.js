@@ -50,6 +50,13 @@ const PCRouter = [
         meta: {
           title: '下拉选择器'
         }
+      }, {
+        path: '/pc/progress',
+        name: 'progress',
+        meta: {
+          title: '加载进度条'
+        },
+        component: () => import('@/example/Progress.vue')
       }
     ]
   }

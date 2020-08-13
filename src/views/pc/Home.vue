@@ -5,7 +5,7 @@
         <router-link :to="item.path" class="btn btn-primary">{{item.name}}</router-link>
       </li>
       <li class="home-menu-item btn btn-primary">
-        <fullscreen v-model="isFullscreen" />
+        <fullscreen />
       </li>
     </ul>
     <div class="home-content">
@@ -27,9 +27,9 @@ export default {
         { name: '轮播图', path: 'swipe' },
         { name: '侧边栏', path: 'sidebar' },
         { name: '弹窗', path: 'dialog' },
-        { name: '下拉选择器', path: 'select' }
-      ],
-      isFullscreen: false
+        { name: '下拉选择器', path: 'select' },
+        { name: '加载进度条', path: 'progress' }
+      ]
     }
   },
   components: {
