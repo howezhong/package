@@ -60,7 +60,6 @@ export default {
       nodeLists: [], // 所有滚动内容的dom节点
       parentWrapWidth: 0, // 父容器的宽度
       contentTotalWidth: 0, // 内容的总宽度(加了css属性值, 如marginLeft)
-      firstChildWidth: 0, // 第一个元素的宽度(加了css属性值, 如marginLeft)
       offset: 0 // 移动时的偏移量
     }
   },
@@ -90,8 +89,6 @@ export default {
       this.parentWrapWidth = this.getRect(this.parentWrap, 'width')
       this.nodeLists = [...this.parentWrap.children]
       if (this.nodeLists.length === 0) return
-      // 克隆节点, loop 无限循环的时候方可无缝衔接
-      this.cloneNodes()
       for (let i = 0; i < this.nodeLists.length; i++) {
         let ml = this.getTheStyle(this.nodeLists[i], 'marginLeft')
         let rl = this.getTheStyle(this.nodeLists[i], 'marginRight')
@@ -105,12 +102,11 @@ export default {
       clearInterval(this.timer)
       // 如果文字长度小于盒子宽度都不移动
       if (this.parentWrapWidth > this.contentTotalWidth) return
-      this.getFirstChildWidth()
       this.timer = setInterval(() => {
         this.offset = this.offset + this.distance
         this.setStyle(this.parentWrap, `translate3d(-${this.offset}px, 0, 0)`)
         // 移动长度大于总长度后重置移动长度为初始值
-        if (this.offset >= (this.contentTotalWidth - this.firstChildWidth)) {
+        if (this.offset >= this.contentTotalWidth) {
           this.offset = this.distance
           this.setStyle(this.parentWrap, `translate3d(-${this.offset}px, 0, 0)`)
         }
@@ -125,20 +121,6 @@ export default {
     mouseleave () {
       this.setAutoPlay()
       this.$emit('starting')
-    },
-    // 获取第一个元素的长度和属性值, 用于loop的时候计算使用
-    getFirstChildWidth () {
-      this.firstChildWidth = 0
-      let ml = this.getTheStyle(this.nodeLists[0], 'marginLeft')
-      let rl = this.getTheStyle(this.nodeLists[0], 'marginRight')
-      this.firstChildWidth += this.getRect(this.nodeLists[0], 'width') + parseInt(ml) + parseInt(rl)
-    },
-    // 克隆第一个节点, 并插入到最后面和重置数组
-    cloneNodes () {
-      let head = this.nodeLists[0].cloneNode(this.nodeLists[0], true)
-      this.parentWrap.appendChild(head)
-      this.nodeLists = [...this.parentWrap.children]
-      this.nodeLists.length = this.nodeLists.length
     },
     setStyle (el, transform) {
       el.style.transform = `${transform}`
